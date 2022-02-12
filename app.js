@@ -1,4 +1,4 @@
 const fastify = require('fastify')({ logger: true })
-const routes = require('./routes')
-fastify.register(routes);
+const homepageRoute = require('./routes/homepage')
+fastify.register(homepageRoute);
 module.exports = fastify
