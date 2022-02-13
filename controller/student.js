@@ -34,7 +34,17 @@ async function getStudentDetail(request, reply) {
     }
 }
 
+async function addStudent(request, reply) {
+    const studentData = await studentsModel.addStudent(request.body.name, request.body.email, request.body.classId);
+    if (studentData > 0) {
+        return reply.status(200).send({ data: studentData });
+    } else {
+        return reply.status(500).send({ error: "Student Not added!" });
+    }
+}
+
 module.exports = {
     getStudentsList,
-    getStudentDetail
+    getStudentDetail,
+    addStudent,
 };

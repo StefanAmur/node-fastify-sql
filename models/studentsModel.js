@@ -1,7 +1,7 @@
 const mysqlPromise = require('../config/database');
 
 const studentsModel = {
-    studentsList: async function (params) {
+    studentsList: async function () {
         const connection = await mysqlPromise.DATABASE.getConnection();
         var res = [{}];
 
@@ -30,6 +30,23 @@ const studentsModel = {
             return false
         }
         return res.length > 0 ? res[0] : null;
+    },
+
+    addStudent: async function (name, email, classId) {
+        const connection = await mysqlPromise.DATABASE.getConnection();
+        var res = [{}];
+
+        try {
+            res = await connection.execute(`INSERT INTO Student(name, email, class_id) VALUES(?, ?, ?)`, [name, email, classId]);
+            connection.release();
+        }
+        catch (err) {
+            console.error(err)
+            connection.release();
+            return false
+        }
+        // return res.length > 0 ? res[0] : null;
+        return res[0].insertId;
     },
 }
 

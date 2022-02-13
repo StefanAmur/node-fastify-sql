@@ -5,7 +5,8 @@ async function routes(fastify, options) {
         reply.send({ message: 'ping success', code: 200 })
     })
     fastify.get('/students', student.getStudentsList);
-    fastify.get('/student/:id', student.getStudentDetail);
+    fastify.get('/students/:id', student.getStudentDetail);
+    fastify.post('/students', student.addStudent);
 }
 
 module.exports = routes;
