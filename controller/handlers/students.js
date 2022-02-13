@@ -1,6 +1,6 @@
-const studentsModel = require('../models/studentsModel')
+const { studentsList, studentDetail, addStudent } = require('../../models/studentsModel');
 
-async function getStudentsList(request, reply) {
+async function getStudentsHandler(request, reply) {
     var limit = 20;
     var offset = 0;
     var page = 1;
@@ -19,14 +19,14 @@ async function getStudentsList(request, reply) {
     }
 
     var queryParams = { offset: offset, limit: limit }
-    const studentsData = await studentsModel.studentsList(queryParams);
+    const studentsData = await studentsList(queryParams);
 
     var response = { page: page, per_page: limit, data: studentsData[0] }
-    return reply.status(200).send(response);
+    return reply.send(response);
 }
 
-async function getStudentDetail(request, reply) {
-    const studentData = await studentsModel.studentDetail(request.params.id);
+async function getStudentHandler(request, reply) {
+    const studentData = await studentDetail(request.params.id);
     if (studentData.length > 0) {
         return reply.status(200).send({ data: studentData[0] });
     } else {
@@ -34,8 +34,9 @@ async function getStudentDetail(request, reply) {
     }
 }
 
-async function addStudent(request, reply) {
-    const studentData = await studentsModel.addStudent(request.body.name, request.body.email, request.body.classId);
+async function addStudentHandler(request, reply) {
+    const { name, email, classId } = request.body;
+    const studentData = await addStudent(name, email, classId);
     if (studentData > 0) {
         return reply.status(200).send({ data: studentData });
     } else {
@@ -44,7 +45,7 @@ async function addStudent(request, reply) {
 }
 
 module.exports = {
-    getStudentsList,
-    getStudentDetail,
-    addStudent,
+    getStudentsHandler,
+    getStudentHandler,
+    addStudentHandler,
 };

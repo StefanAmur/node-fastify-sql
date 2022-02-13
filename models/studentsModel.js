@@ -16,6 +16,7 @@ const studentsModel = {
         }
         return res.length > 0 ? res : null;
     },
+
     studentDetail: async function (id) {
         const connection = await mysqlPromise.DATABASE.getConnection();
         var res = [{}];
@@ -45,7 +46,7 @@ const studentsModel = {
             connection.release();
             return false
         }
-        // return res.length > 0 ? res[0] : null;
+
         return res[0].insertId;
     },
 }

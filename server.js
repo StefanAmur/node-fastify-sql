@@ -1,7 +1,17 @@
 'use strict'
 require('dotenv').config();
-const fastify = require('./app')
+const fastify = require('fastify')({ logger: true })
+const routes = require('./routes/students')
+fastify.register(routes);
+const PORT = process.env.PORT || 3000;
 
-fastify.listen(process.env.SERVER_PORT, () =>
-    console.log(`Listening on port ${process.env.SERVER_PORT}!`),
-);
+const startServer = async () => {
+    try {
+        await fastify.listen(PORT);
+    } catch (err) {
+        fastify.log.error(err);
+        process.exit(1);
+    }
+};
+
+startServer();
